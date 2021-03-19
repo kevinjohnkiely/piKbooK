@@ -1,11 +1,17 @@
 import React from 'react'
 import classes from './main.module.css'
+import Sidebar from './sidebar/sidebar'
+import Timeline from './timeline/timeline'
 
 const Main = () => {
     return (
-        <div>
-            <p>Main content</p>
-        </div>
+        <section className="container">
+            <div className={classes.gridLayoutMain}>
+                <Sidebar />
+                <Timeline />
+            </div>
+            
+        </section>
     )
 }
 

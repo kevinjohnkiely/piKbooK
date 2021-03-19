@@ -8,7 +8,7 @@ const Header = () => {
             <div className="container">
                 <div className={classes.flexHeader}>
                     <div className={classes.logo}>
-                        <img src={logo} alt=""/>
+                        <a href="/"><img src={logo} alt="piKbooK"/></a>
                     </div>
                     <nav className={classes.menu}>
                         <ul>

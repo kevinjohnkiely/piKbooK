@@ -1,0 +1,31 @@
+.sidebarForm {
+    padding: 10px;
+}
+
+.formCard {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0, 0.3);
+}
+
+.formCard input[type="text"] {
+    border: 2px solid #c9c9c9;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+ }
+
+ .formCard button {
+    display: inline-block;
+    padding: 10px 30px;
+    cursor: pointer;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 7px;
+ }
+
+ .formCard button:hover {
+     background: var(--primary-color);
+ }

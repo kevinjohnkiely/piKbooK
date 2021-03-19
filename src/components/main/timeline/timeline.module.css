@@ -1,0 +1,9 @@
+.mainPosts {
+    /* background-color: blue; */
+    border: 1px solid var(--secondary-color);
+    padding: 10px;
+}
+
+.mainPosts > div:last-child {
+    margin-bottom: 0;
+}

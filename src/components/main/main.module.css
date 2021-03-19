@@ -1,0 +1,14 @@
+.gridLayoutMain {
+    display: grid;
+    grid-template-columns: 33% 67%;
+    gap: 30px;
+    overflow: visible;
+}
+
+ /* Mobile */
+@media(max-width: 600px){
+    .gridLayoutMain {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+}

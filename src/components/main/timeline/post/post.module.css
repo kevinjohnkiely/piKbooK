@@ -1,0 +1,50 @@
+.post {
+    background: var(--primary-color);
+    /* border: 1px solid var(--primary-color); */
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.postHeader {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.postHeader i {
+    color: var(--tertiary-color);
+}
+
+.postHeader h4 {
+    padding-left: 10px;
+    color: var(--secondary-color);
+}
+
+.postBody {
+    padding: 10px 0 10px 0;
+    border-top: 1px dotted var(--tertiary-color);
+    margin-top: 10px;
+    color: var(--tertiary-color);
+}
+
+.postFooter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.postFooter button {
+    display: inline-block;
+    padding: 5px 15px;
+    cursor: pointer;
+    background: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.postFooter button:hover {
+    background: var(--tertiary-color);
+    color: var(--secondary-color)
+}
