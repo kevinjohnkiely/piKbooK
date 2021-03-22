@@ -12,9 +12,9 @@ const Header = () => {
                     </div>
                     <nav className={classes.menu}>
                         <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Login</a></li>
-                            <li><a href="#">Signup</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/signup">Signup</a></li>
                         </ul>
                     </nav>
                 </div>

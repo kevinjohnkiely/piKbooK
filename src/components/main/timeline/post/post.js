@@ -1,11 +1,11 @@
 import React from 'react'
 import classes from './post.module.css'
 
-const Post = ({ post }) => {
+const Post = ({ post, postClicked }) => {
     return (
         <div className={classes.post}>
             <div className={classes.postHeader}>
-                <i class="fas fa-user-circle fa-3x"></i>
+                <i className="fas fa-user-circle fa-3x"></i>
                 <h4>{post.user}</h4>
             </div>
             <div className={classes.postBody}>
@@ -13,7 +13,7 @@ const Post = ({ post }) => {
             </div>
             <div className={classes.postFooter}>
                 <button>Like</button>
-                <button>Delete</button>
+                <button onClick={() => postClicked(post.id)}>Delete</button>
             </div>
         </div>
     )
