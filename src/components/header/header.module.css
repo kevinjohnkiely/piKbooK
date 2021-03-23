@@ -1,6 +1,7 @@
 .header {
     background-color: var(--primary-color);
     border-top: 7px solid var(--secondary-color);
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     margin-bottom: 40px;
 }
 
@@ -55,5 +56,6 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
+        font-size: 13px;
     }
 }

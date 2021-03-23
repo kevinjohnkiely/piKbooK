@@ -8,7 +8,7 @@ class Timeline extends Component {
     render() {
 
         const thePosts = this.props.posts.map(post => (
-            <Post key={post.postId} post={post} postClicked={this.props.postClicked} />
+            <Post key={post.id} post={post} postClicked={this.props.postClicked} />
         ))
 
     return (

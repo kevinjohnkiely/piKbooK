@@ -1,110 +1,125 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './main.module.css'
 import Sidebar from './sidebar/sidebar'
 import Timeline from './timeline/timeline'
 import AlertModal from '../alertModal/alertModal'
 
-import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid';
+import firebase from '../../firebase'
 
-// import posts from '../../assets/posts'
+function Main () {
 
-class Main extends Component {
+    const [ loadedPosts, setLoadedPosts ] = useState([])
+    const [ loading, setLoading ] = useState(false)
+    const [ error, setError ] = useState(false)
+    const [ success, setSuccess ] = useState(false)
 
-    state = {
-        loadedPosts: null,
-        loading: false,
-        error: false,
-        success: false
-    }
+    // componentDidMount() {
+    //     axios
+    //       .get("https://pikbook-2021-default-rtdb.europe-west1.firebasedatabase.app/posts.json")
+    //       .then((response) => {
+    //         const resArray = Object.values(response.data)
+    //         this.setState({ loadedPosts: resArray });
+    //         // console.log(this.state.loadedPosts)
+    //       })
+    //       .catch((error) => {
+    //         this.setState({ error: true });
+    //       });
+    //   }
 
-    componentDidMount() {
-        console.log('COmponent did mount = main component')
-        axios
-          .get("https://pikbook-2021-default-rtdb.europe-west1.firebasedatabase.app/posts.json")
-          .then((response) => {
-            const resArray = Object.values(response.data)
-            this.setState({ loadedPosts: resArray });
-            // console.log(this.state.loadedPosts)
-          })
-          .catch((error) => {
-            this.setState({ error: true });
-          });
-      }
+    useEffect(() => {
+        setLoading(true)
+            const db = firebase.firestore()
+            const unsubscribe = db.collection('posts').onSnapshot((snapshot) => {
+                const postsData = []
+                snapshot.forEach(doc => postsData.push(({...doc.data(), id: doc.id})))
 
-    addComment = (comment) => {
-        this.setState({ loading: true });
+                if(snapshot.docs.length === 0) {
+                    setLoadedPosts([])
+                } else {
+                    setLoadedPosts(postsData)
+                }
+                setLoading(false)
+            })
+            // const data = await db.collection("posts").get()       
+            // setLoading(false)
+            // if(data.docs.length === 0) {
+            //     setLoadedPosts(null)
+            // } else {
+            //     setLoadedPosts(data.docs.map(doc => ({...doc.data(), id: doc.id})))
+            // }
+        return unsubscribe
+    }, [])
+
+    const addComment = (comment) => {
+        setLoading(true)
         const newPost = {
-            postId: uuidv4(),
             comment,
             user: 'Kevin'
         }
-        axios
-            .post("https://pikbook-2021-default-rtdb.europe-west1.firebasedatabase.app/posts.json", newPost)
-            .then((response) => {
-                this.setState({ loading: false, 
-                    error: false, 
-                    success: true,
-                    loadedPosts: [...this.state.loadedPosts, newPost]
-                });
-            })
-            .catch((error) => {
-                this.setState({ loading: false, error: true });
-                console.log(error.message);
-            });
+
+        const db = firebase.firestore()
+        db.collection('posts').add(newPost)
+        setLoading(false)
+        setSuccess(true)
+        setLoadedPosts([...loadedPosts, newPost])
+
+        // axios
+        //     .post("https://pikbook-2021-default-rtdb.europe-west1.firebasedatabase.app/posts.json", newPost)
+        //     .then((response) => {
+        //         setLoading(false)
+        //         setError(false)
+        //         setSuccess(true)
+        //         setLoadedPosts([...this.state.loadedPosts, newPost])
+        //     })
+        //     .catch((error) => {
+        //         setLoading(false)
+        //         setError(true)
+        //         console.log(error.message);
+        //     });
     }
 
-    deleteComment = (id) => {
+    const deleteComment = (id) => {
         console.log(id)
-        axios
-            .get('https://pikbook-2021-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="postId"')
-            .then((response) => {
-                // this.setState({ loading: false, 
-                //     error: false, 
-                //     success: true,
-                //     loadedPosts: [...this.state.loadedPosts, newPost]
-                // });
-                console.log(response.data)
-            })
-        // const newPosts = this.state.loadedPosts.filter(post => id !== post.id)
-        // this.setState({ loadedPosts: newPosts })
+        const db = firebase.firestore()
+        db.collection('posts').doc(id).delete()
     }
 
-    clearErrorMessage = () => {
-        this.setState({ error: false })
+    const clearErrorMessage = () => {
+        setError(false)
     }
 
-    clearSuccessMessage = () => {
-        this.setState({ success: false })
+    const clearSuccessMessage = () => {
+        setSuccess(false)
     }
 
-    render() {
-        return (
+    return (
         <section className="container">
-            {this.state.loading ? <AlertModal 
+            {loading ? <AlertModal 
                 message="Loading..."
                 type="info" /> : null}
-            {this.state.error ? <AlertModal 
+            {error ? <AlertModal 
                 message="Network error! Please check your connection!"
                 type="failure"
-                clicked={this.clearErrorMessage} /> : null}
-            {this.state.success ? <AlertModal 
+                clicked={clearErrorMessage} /> : null}
+            {success ? <AlertModal 
                 message="Post was submitted! Thank you :)" 
                 type="success"
-                clicked={this.clearSuccessMessage} /> : null}
+                clicked={clearSuccessMessage} /> : null}
             <div className={classes.gridLayoutMain}>
-                <Sidebar addComment={(comment) => this.addComment(comment)} />
-                {this.state.loadedPosts ?
+                <Sidebar addComment={(comment) => addComment(comment)} />
+                {loadedPosts.length > 0 ?
                 <Timeline 
-                    posts={this.state.loadedPosts} 
-                    postClicked={(id) => this.deleteComment(id)} />
-                    : <h2>No posts yet...please add one!</h2>
+                    posts={loadedPosts} 
+                    postClicked={(id) => deleteComment(id)} />
+                    : <section><h2>Hmmmm...no posts to show!</h2>
+                    <p>This could be because nobody has added a post yet, or you could have a connection issue.
+                        Please reload app and try again! Thank you.
+                    </p></section>
                 }
             </div>
             
         </section>
     )
-    }
     
 }
 
