@@ -27,13 +27,22 @@
     color: var(--tertiary-color);
 }
 
+.postBody a {
+    color: var(--secondary-color);
+}
+
+.postBody a:hover {
+    color: var(--tertiary-color);
+    text-decoration: underline;
+}
+
 .postFooter {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.postFooter button {
+.postFooter button, .postCheckDelete button {
     display: inline-block;
     padding: 5px 15px;
     cursor: pointer;
@@ -44,7 +53,22 @@
     margin-left: 10px;
 }
 
-.postFooter button:hover {
+.postFooter button:hover, .postCheckDelete button:hover {
     background: var(--tertiary-color);
     color: var(--secondary-color)
+}
+
+.postCheckDelete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: crimson;
+    margin: 5px;
+    padding: 5px;
+}
+
+.postCheckDelete p {
+    color: var(--tertiary-color);
+    text-transform: uppercase;
+    font-weight: bold;
 }
