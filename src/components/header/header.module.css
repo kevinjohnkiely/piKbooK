@@ -27,7 +27,7 @@
 }
 
 .menu li:last-child a {
-    background-color: var(--secondary-color);
+    background-color: var(--dark-color);
     border-radius: 25px;
     padding: 15px;
 }

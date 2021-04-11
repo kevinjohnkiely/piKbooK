@@ -6,6 +6,7 @@ import AlertModal from "../alertModal/alertModal";
 import Spinner from "../spinner/spinner";
 import firebase from "../../firebase";
 
+
 function Main() {
   const [loadedPosts, setLoadedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ function Main() {
     setLoading(true);
     const newPost = {
       comment,
-      user: "Kevin",
+      user: "Joyce"
     };
 
     const db = firebase.firestore();
@@ -103,6 +104,7 @@ function Main() {
         {spinnerOrPosts}
       </div>
     </section>
+    
   );
 }
 

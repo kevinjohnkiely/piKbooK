@@ -22,7 +22,7 @@ const Post = ({ post, postClicked }) => {
             </div>
             {checkDelete ? <div className={classes.postCheckDelete}>
                 <p>Are you sure?</p>
-                <button onClick={() => postClicked(post.id)}>YUP!</button>
+                <button onClick={() => postClicked(post.id)}>YES</button>
                 <button onClick={() => setCheckDelete(!checkDelete)}>NOPE!</button>
             </div> : null }
             
