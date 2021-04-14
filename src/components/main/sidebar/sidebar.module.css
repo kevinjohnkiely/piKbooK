@@ -29,3 +29,11 @@
  .formCard button:hover {
      background: var(--primary-color);
  }
+
+ .errorMsg {
+    padding: 20px;
+    background-color: red;
+    color: wheat;
+    text-transform: uppercase;
+    font-weight: bold;
+}

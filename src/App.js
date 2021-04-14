@@ -9,30 +9,40 @@ import Dashboard from './components/auth/dashboard'
 import PrivateRoute from './components/auth/privateRoute'
 import ForgotPassword from './components/auth/forgotPassword'
 import UpdateProfile from './components/auth/updateProfile'
-import { Route, Switch } from 'react-router-dom'
-import { AuthProvider } from './context/authContext'
+import CompleteProfile from './components/auth/completeProfile'
+import { Route, Switch, Redirect } from 'react-router-dom'
+
+import { useAuth  } from './context/authContext'
 
 function App() {
+
+  const {currentUser} = useAuth()
+
   return (
-    <AuthProvider>
+    // <AuthProvider>
     <div className="App">
       <Header />
-
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/about" component={About} />
         <Route path="/post/:id" exact component={FullPost} />
-        <Route path="/signup" exact component={Signup} />
-        <Route path="/login" exact component={Login} />
-        <Route path="/forgot-password" component={ForgotPassword} />
+        {!currentUser && 
+          <>
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/forgot-password" component={ForgotPassword} />
+          </>
+        }
         <PrivateRoute path="/update-profile" component={UpdateProfile} />
+        <PrivateRoute path="/complete-profile" component={CompleteProfile} />
         <PrivateRoute path="/dashboard" exact component={Dashboard} />
+        <Redirect to="/" />
       </Switch>
       
 
       <Footer />
     </div>
-    </AuthProvider>
+    // </AuthProvider>
   );
 }
 

@@ -5,6 +5,22 @@
     overflow: visible;
 }
 
+.completeProfileReminder {
+    padding: 30px;
+    background-color: var(--dark-color);
+    color: white;
+    margin-bottom: 10px;
+}
+
+.completeProfileReminder a {
+    color: var(--primary-color);
+}
+
+.completeProfileReminder a:hover {
+    color: var(--tertiary-color);
+    text-decoration: underline;
+}
+
  /* Mobile */
 @media(max-width: 600px){
     .gridLayoutMain {

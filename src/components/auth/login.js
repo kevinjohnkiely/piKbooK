@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useHistory } from 'react-router-dom'
-import classes from "./signup.module.css";
+import classes from "./auth.module.css";
 import { useAuth  } from '../../context/authContext'
 
 const Login = () => {
@@ -30,7 +30,7 @@ const Login = () => {
     <section className="container">
       <div className={classes.card}>
         <h2>Login</h2>
-        {error && <p>{error}</p>}
+        {error && <p className={classes.errorMsg}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className={classes.formControl}>
             <input type="email" name="email" placeholder="Email" ref={emailRef} required />

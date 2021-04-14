@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useHistory } from 'react-router-dom'
-import classes from "./signup.module.css";
+import classes from "./auth.module.css";
 import { useAuth  } from '../../context/authContext'
 
 const Signup = () => {
@@ -23,7 +23,7 @@ const Signup = () => {
             setError('')
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value)
-            history.push('/')
+            history.push('/complete-profile')
         } catch {
             setError('Failed to create an account')
         }
@@ -34,7 +34,7 @@ const Signup = () => {
     <section className="container">
       <div className={classes.card}>
         <h2>Sign Up</h2>
-        {error && <p>{error}</p>}
+        {error && <p className={classes.errorMsg}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className={classes.formControl}>
             <input type="email" name="email" placeholder="Email" ref={emailRef} required />

@@ -47,6 +47,11 @@
     background: var(--primary-color);
 }
 
+.card .btn:disabled {
+    background-color: rgba(0,0,0, 0.3);
+    cursor: not-allowed;
+}
+
 .footer {
     padding: 20px;
     text-align: center;
@@ -60,6 +65,22 @@
 .footer a:hover {
     color: var(--secondary-color);
     text-decoration: none;
+}
+
+.errorMsg {
+    padding: 20px;
+    background-color: red;
+    color: wheat;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.successMsg {
+    padding: 20px;
+    background-color: green;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 /* Mobile */

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import classes from "./main.module.css";
 import Sidebar from "./sidebar/sidebar";
 import Timeline from "./timeline/timeline";
@@ -6,12 +7,33 @@ import AlertModal from "../alertModal/alertModal";
 import Spinner from "../spinner/spinner";
 import firebase from "../../firebase";
 
+import { useAuth } from '../../context/authContext'
 
 function Main() {
+
+  const { currentUser } = useAuth()
+
   const [loadedPosts, setLoadedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const [ loadedUserDetails, setLoadedUserDetails] = useState({})
+
+  useEffect(() => {
+    if(currentUser) {
+        console.log(currentUser.uid);
+        const db = firebase.firestore();
+        const userRef = db.collection('users').where("userId", "==", currentUser.uid).get()
+            .then(data => {
+                data.forEach(doc => {
+                    console.log(doc.data())
+                    setLoadedUserDetails(doc.data())
+                })
+            });
+    }
+    
+  },[currentUser])
 
   useEffect(() => {
     setLoading(true);
@@ -37,14 +59,13 @@ function Main() {
     setLoading(true);
     const newPost = {
       comment,
-      user: "Joyce"
+      user: loadedUserDetails.username
     };
 
     const db = firebase.firestore();
     db.collection("posts").add(newPost);
     setLoading(false);
     setSuccess(true);
-    // setLoadedPosts([...loadedPosts, newPost]);
   };
 
   const deleteComment = (id) => {
@@ -82,6 +103,8 @@ function Main() {
 
   return (
     <section className="container">
+      {(currentUser && !loadedUserDetails.username) ? 
+      <p className={classes.completeProfileReminder}>Please complete your profile to use the app! <Link to="/complete-profile">CLICK HERE</Link></p> : null}
       {/* {loading ? <AlertModal 
                 message="Loading..."
                 type="info" /> : null} */}
@@ -100,7 +123,7 @@ function Main() {
         />
       ) : null}
       <div className={classes.gridLayoutMain}>
-        <Sidebar addComment={(comment) => addComment(comment)} />
+        <Sidebar addComment={(comment) => addComment(comment)} loadedUsername={loadedUserDetails.username} />
         {spinnerOrPosts}
       </div>
     </section>

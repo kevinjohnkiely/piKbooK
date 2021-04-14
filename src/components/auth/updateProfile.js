@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import classes from "./signup.module.css";
+import classes from "./auth.module.css";
 import { useAuth } from "../../context/authContext";
 
 const UpdateProfile = () => {
@@ -45,7 +45,7 @@ const UpdateProfile = () => {
     <section className="container">
       <div className={classes.card}>
         <h2>Update Profile</h2>
-        {error && <p>{error}</p>}
+        {error && <p className={classes.errorMsg}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className={classes.formControl}>
             <input
@@ -79,7 +79,7 @@ const UpdateProfile = () => {
         </form>
         <article className={classes.footer}>
           <p>
-            Already have an account? <Link to="/dashboard">Cancel</Link>
+            Return to Dashboard? <Link to="/dashboard">Cancel</Link>
           </p>
         </article>
       </div>
