@@ -8,13 +8,13 @@ const Dashboard = () => {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
 
-  console.log(currentUser)
+  console.log(currentUser);
 
   async function handleLogout() {
     setError("");
     try {
       await logout();
-      history.push('/login')
+      history.push("/login");
     } catch {
       setError("Failed to log out!");
     }
@@ -29,14 +29,23 @@ const Dashboard = () => {
           <strong>Email:</strong> {currentUser.email}
         </p>
         <article className={classes.footer}>
-          <p><Link to="/update-profile">Change E-mail/Pasword</Link></p>
-          <p><Link to="/update-details">Change User Details</Link></p>
+          <p>
+            <Link to="/update-profile">Change E-mail/Pasword</Link>
+          </p>
         </article>
-        <article className={classes.footer}>          
-            <button className={classes.btn} onClick={handleLogout}>
-              Log Out
-            </button>
-          
+        <p>
+          <strong>Username:</strong> {currentUser.username}
+        </p>
+        <article className={classes.footer}>
+          <p>
+            <Link to="/update-details">Change User Details</Link>
+          </p>
+        </article>
+
+        <article className={classes.footer}>
+          <button className={classes.btn} onClick={handleLogout}>
+            Log Out
+          </button>
         </article>
       </div>
     </section>

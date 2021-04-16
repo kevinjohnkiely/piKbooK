@@ -15,6 +15,7 @@ function Main() {
 
   const [loadedPosts, setLoadedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -22,6 +23,7 @@ function Main() {
 
   useEffect(() => {
     if(currentUser) {
+      setLoadingUser(true)
         console.log(currentUser.uid);
         const db = firebase.firestore();
         const userRef = db.collection('users').where("userId", "==", currentUser.uid).get()
@@ -29,8 +31,10 @@ function Main() {
                 data.forEach(doc => {
                     console.log(doc.data())
                     setLoadedUserDetails(doc.data())
+                    setLoadingUser(false)
                 })
             });
+            setLoadingUser(false)
     }
     
   },[currentUser])
@@ -59,7 +63,9 @@ function Main() {
     setLoading(true);
     const newPost = {
       comment,
-      user: loadedUserDetails.username
+      user: loadedUserDetails.username,
+      userId: loadedUserDetails.userId,
+      profilePic: loadedUserDetails.profilePic
     };
 
     const db = firebase.firestore();
@@ -85,7 +91,10 @@ function Main() {
   let spinnerOrPosts = (
     <>
       {loadedPosts.length > 0 ? (
-        <Timeline posts={loadedPosts} postClicked={(id) => deleteComment(id)} />
+        <Timeline 
+          posts={loadedPosts} 
+          postClicked={(id) => deleteComment(id)}
+          loadedUserDetails={loadedUserDetails} />
       ) : (
         <section>
           <h2>Hmmmm...no posts to show!</h2>
@@ -101,13 +110,21 @@ function Main() {
     spinnerOrPosts = <Spinner />;
   }
 
+  let spinnerOrSidebar = (
+    <Sidebar 
+      addComment={(comment) => addComment(comment)} 
+      loadedUserDetails={loadedUserDetails} />
+  )
+
+  if (loadingUser) {
+    spinnerOrSidebar = <Spinner />
+  }
+
   return (
     <section className="container">
-      {(currentUser && !loadedUserDetails.username) ? 
-      <p className={classes.completeProfileReminder}>Please complete your profile to use the app! <Link to="/complete-profile">CLICK HERE</Link></p> : null}
-      {/* {loading ? <AlertModal 
-                message="Loading..."
-                type="info" /> : null} */}
+      {/* {(currentUser && !loadedUserDetails.username) ? 
+      <p className={classes.completeProfileReminder}>Please complete your profile to use the app! <Link to="/complete-profile">CLICK HERE</Link></p> : null} */}
+      
       {error ? (
         <AlertModal
           message="Network error! Please check your connection!"
@@ -123,7 +140,7 @@ function Main() {
         />
       ) : null}
       <div className={classes.gridLayoutMain}>
-        <Sidebar addComment={(comment) => addComment(comment)} loadedUsername={loadedUserDetails.username} />
+        {spinnerOrSidebar}
         {spinnerOrPosts}
       </div>
     </section>

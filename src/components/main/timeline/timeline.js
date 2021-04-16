@@ -10,6 +10,7 @@ class Timeline extends Component {
             <Post key={post.id} 
                 post={post} 
                 postClicked={this.props.postClicked}
+                loadedUserDetails={this.props.loadedUserDetails}
                 />
         ))
 

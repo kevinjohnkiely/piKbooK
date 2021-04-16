@@ -30,6 +30,7 @@
     background-color: var(--dark-color);
     border-radius: 25px;
     padding: 15px;
+    border: 2px solid white;
 }
 
 .menu li:last-child a:hover {
@@ -46,7 +47,7 @@
 }
 
 .menu a:hover {
-    border-bottom: 7px solid var(--secondary-color);
+    border-bottom: 7px solid var(--tertiary-color);
 }
 
 /* Mobile */
