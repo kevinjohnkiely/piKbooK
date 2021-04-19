@@ -11,6 +11,7 @@ import PrivateRoute from './components/auth/privateRoute'
 import ForgotPassword from './components/auth/forgotPassword'
 import UpdateProfile from './components/auth/updateProfile'
 import CompleteProfile from './components/auth/completeProfile'
+
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 import { useAuth  } from './context/authContext'

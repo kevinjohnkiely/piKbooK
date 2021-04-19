@@ -11,6 +11,7 @@ class Timeline extends Component {
                 post={post} 
                 postClicked={this.props.postClicked}
                 loadedUserDetails={this.props.loadedUserDetails}
+                
                 />
         ))
 

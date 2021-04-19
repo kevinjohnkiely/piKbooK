@@ -79,3 +79,7 @@
     text-transform: uppercase;
     font-weight: bold;
 }
+
+.likes {
+    color: var(--tertiary-color)
+}

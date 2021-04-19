@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'
 import classes from "./main.module.css";
 import Sidebar from "./sidebar/sidebar";
 import Timeline from "./timeline/timeline";
@@ -14,6 +13,7 @@ function Main() {
   const { currentUser } = useAuth()
 
   const [loadedPosts, setLoadedPosts] = useState([]);
+  const [loadedLikes, setLoadedLikes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingUser, setLoadingUser] = useState(false);
   const [error, setError] = useState(false);
@@ -21,15 +21,14 @@ function Main() {
 
   const [ loadedUserDetails, setLoadedUserDetails] = useState({})
 
+  // Get the logged in users details
   useEffect(() => {
     if(currentUser) {
       setLoadingUser(true)
-        console.log(currentUser.uid);
         const db = firebase.firestore();
         const userRef = db.collection('users').where("userId", "==", currentUser.uid).get()
             .then(data => {
                 data.forEach(doc => {
-                    console.log(doc.data())
                     setLoadedUserDetails(doc.data())
                     setLoadingUser(false)
                 })
@@ -39,6 +38,7 @@ function Main() {
     
   },[currentUser])
 
+  // get all posts
   useEffect(() => {
     setLoading(true);
     const db = firebase.firestore();
@@ -46,18 +46,16 @@ function Main() {
       const postsData = [];
       snapshot.forEach((doc) => postsData.push({ ...doc.data(), id: doc.id }));
 
-      console.log(snapshot.docs.length);
-
       if (snapshot.docs.length === 0) {
         setLoadedPosts([]);
       } else {
         setLoadedPosts(postsData);
       }
-    
       setLoading(false);
     });
     // return unsubscribe;
   }, []);
+
 
   const addComment = (comment) => {
     setLoading(true);
@@ -75,7 +73,6 @@ function Main() {
   };
 
   const deleteComment = (id) => {
-    console.log(id);
     const db = firebase.firestore();
     db.collection("posts").doc(id).delete();
   };
@@ -92,7 +89,7 @@ function Main() {
     <>
       {loadedPosts.length > 0 ? (
         <Timeline 
-          posts={loadedPosts} 
+          posts={loadedPosts}
           postClicked={(id) => deleteComment(id)}
           loadedUserDetails={loadedUserDetails} />
       ) : (
@@ -122,9 +119,6 @@ function Main() {
 
   return (
     <section className="container">
-      {/* {(currentUser && !loadedUserDetails.username) ? 
-      <p className={classes.completeProfileReminder}>Please complete your profile to use the app! <Link to="/complete-profile">CLICK HERE</Link></p> : null} */}
-      
       {error ? (
         <AlertModal
           message="Network error! Please check your connection!"
@@ -142,6 +136,7 @@ function Main() {
       <div className={classes.gridLayoutMain}>
         {spinnerOrSidebar}
         {spinnerOrPosts}
+        
       </div>
     </section>
     
