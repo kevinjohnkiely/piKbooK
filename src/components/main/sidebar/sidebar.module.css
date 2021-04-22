@@ -7,12 +7,37 @@
     background-color: var(--secondary-color);
     margin-bottom: 20px;
     color: var(--tertiary-color);
+    border-radius: 10px;
+}
+
+.userPanelHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.userPanelBody {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    border-top: 1px dotted var(--tertiary-color);
+}
+
+.userPanelBody a {
+    padding-right: 10px;
+    color: var(--tertiary-color);
+    font-size: 12px;
+}
+
+.userPanelBody a:hover {
+    color: var(--fourth-color);
+    text-decoration: underline;
+}
+
 .userPanel img {
+    object-fit: cover;
     width: 40px;
     height: 40px;
     border-radius: 50%;

@@ -79,7 +79,7 @@ const UpdateProfile = () => {
         </form>
         <article className={classes.footer}>
           <p>
-            Return to Dashboard? <Link to="/dashboard">Cancel</Link>
+            Return to Account Page? <Link to="/dashboard">Cancel</Link>
           </p>
         </article>
       </div>

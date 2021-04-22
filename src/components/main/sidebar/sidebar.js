@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import classes from "./sidebar.module.css";
 import { useHistory, Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 
 const Sidebar = (props) => {
-  const { currentUser } = useAuth();
+  console.log("Rendering....SIDEBAR");
+  console.log("------------------");
+
+  const { currentUser, logout } = useAuth();
   const [comment, setComment] = useState("");
   const [message, setMessage] = useState("");
-  // const [ loadedUserDetails, setLoadedUserDetails] = useState({})
+  const [error, setError] = useState("")
   const history = useHistory();
 
   const handleChange = (event) => {
@@ -32,23 +35,44 @@ const Sidebar = (props) => {
     }
   };
 
+  async function handleLogout() {
+    setError("");
+    try {
+      await logout();
+      history.push("/login");
+    } catch {
+      setError("Failed to log out!");
+    }
+  }
+
   return (
     <aside className={classes.sidebarForm}>
       <div className={classes.userPanel}>
-          <img
-            src={props.loadedUserDetails.profilePic}
-            alt={props.loadedUserDetails.username}
-          />
-        <h4>
-          Welcome,{" "}
-          <span className={classes.highlighted}>
-            {props.loadedUserDetails.username
-              ? props.loadedUserDetails.username
-              : "Guest"}
-          </span>
-        </h4>
+        <div className={classes.userPanelHeader}>
+          <h4>
+            Welcome,{" "}
+            <span className={classes.highlighted}>
+              {props.loadedUserDetails.username
+                ? props.loadedUserDetails.username
+                : "Guest"}
+            </span>
+          </h4>
+          {props.loadedUserDetails.profilePic ? (
+            <img
+              src={props.loadedUserDetails.profilePic}
+              alt={props.loadedUserDetails.username}
+            />
+          ) : (
+            <i className="fas fa-user-circle fa-3x"></i>
+          )}
+        </div>
+        <div className={classes.userPanelBody}>
+            <Link onClick={handleLogout}>Logout</Link>
+            <Link Link to="/update-profile">Change Email/Password</Link>
+            <Link Link to="/change-picture">Change Photo</Link>
+        </div>
       </div>
-      
+
       <div className={classes.formCard}>
         <h2>Create a post!</h2>
         {message && <p className={classes.errorMsg}>{message}</p>}

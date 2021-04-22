@@ -4,6 +4,7 @@
     --primary-color: #8a9900;
     --secondary-color: #003333;
     --tertiary-color: #ffffff;
+    --fourth-color: #a8bb03;
     --dark-color: #000000;
     --light-color: #f4f4f4;
     --success-color: #5cb85c;
@@ -32,4 +33,11 @@ a {
     margin: 0 auto;
     overflow: auto;
     padding: 0 40px;
+}
+
+textarea {
+    border: 2px solid #c9c9c9;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 10px 0;
 }

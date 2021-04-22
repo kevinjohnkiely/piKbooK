@@ -1,32 +1,40 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classes from "./auth.module.css";
 import { useAuth } from "../../context/authContext";
 import { storage } from "../../firebase";
 import firebase from "../../firebase";
 
-const CompleteProfile = () => {
-  const usernameRef = useRef();
-  const yourLocationRef = useRef();
+const ChangePicture = () => {
   const { currentUser } = useAuth();
-  const [username, setUsername] = useState("");
-  const [yourLocation, setYourLocation] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
-  const [ loadedUsernames, setLoadedUsernames ] = useState([])
+  const [ loadedUserId, setLoadedUserId ] = useState([])
   const [progress, setProgress] = useState(0);
   const [success, setSuccess] = useState(false);
+  const [postsByUser, setPostsByUser] = useState([])
 
   useEffect(() => {
     const db = firebase.firestore();
-    return db.collection("users").onSnapshot((snapshot) => {
-      const users = [];
-      snapshot.forEach((doc) => users.push(doc.data().username.toLowerCase()));
-      setLoadedUsernames(users)
+    return db.collection("users").where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
+      const userDocId = [];
+      snapshot.forEach((doc) => userDocId.push(doc.id));
+      setLoadedUserId(userDocId)
+      
     });
-  },[])
+  },[currentUser.uid])
+
+  useEffect(() => {
+    const db = firebase.firestore();
+    return db.collection("posts").where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
+      const loadedPosts = [];
+      snapshot.forEach((doc) => loadedPosts.push({...doc.data(), id: doc.id }));
+      setPostsByUser(loadedPosts)
+      
+    });
+  },[currentUser.uid])
 
   const handlePicChange = (event) => {
     if (event.target.files[0]) {
@@ -43,18 +51,9 @@ const CompleteProfile = () => {
     }
   };
 
-  const handleChange = () => {
-    setUsername(usernameRef.current.value);
-    setYourLocation(yourLocationRef.current.value);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if(loadedUsernames.includes(username)) {
-      setError('That username is already taken! Please choose another.')
-    } else {
-      setLoading(true);
 
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
     uploadTask.on(
@@ -76,53 +75,29 @@ const CompleteProfile = () => {
           .then((url) => {
             setUrl(url);
             
-            const newDetails = {
-              userId: currentUser.uid,
-              username: username,
-              location: yourLocation,
-              profilePic: url,
-            };
-
+            // change pic in users table
             const db = firebase.firestore();
-            db.collection("users").add(newDetails);
+            db.collection("users").doc(loadedUserId.toString()).update({ profilePic: url })
+
+            // change pic in posts table for each post by user
+            postsByUser.forEach(post => {
+              db.collection("posts").doc(post.id).update({ profilePic: url })
+            })
+
             setLoading(false);
             setSuccess(true);
           });
       }
     );
-    }
-    
     
   };
 
   return (
     <section className="container">
       <div className={classes.card}>
-        <h2>Complete Your Profile!</h2>
+        <h2>Change Your Photo!</h2>
         {error && <p className={classes.errorMsg}>{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className={classes.formControl}>
-            <input
-              type="text"
-              name="email"
-              placeholder="Choose a username"
-              value={username}
-              required
-              ref={usernameRef}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={classes.formControl}>
-            <input
-              type="text"
-              name="location"
-              placeholder="Your Location?"
-              value={yourLocation}
-              required
-              ref={yourLocationRef}
-              onChange={handleChange}
-            />
-          </div>
           <div className={classes.formControl}>
             <label>Add a profile photo (MUST BE JPEG OR PNG!): </label>
             <input
@@ -135,18 +110,24 @@ const CompleteProfile = () => {
           </div>
 
           <button type="submit" disabled={loading} className={classes.btn}>
-            Complete Profile
+            Change Photo
           </button>
           { success && <div className={classes.imageUploaded}>
-            <h3>Account created! Here is your profile photo!</h3>
-            <img src={url} alt={url}/>
-            <Link to="/home">Go to timeline of posts</Link>
+            <h3>Success! Here is your new profile photo!</h3>
+            <img src={url} alt={url} />
+            
+            <Link to="/home" className={classes.btn}>Go to timeline of posts</Link>
           </div>}
           
         </form>
+        <article className={classes.footer}>
+          <p>
+            Return to Account Page? <Link to="/dashboard">Cancel</Link>
+          </p>
+        </article>
       </div>
     </section>
   );
 };
 
-export default CompleteProfile;
+export default ChangePicture;

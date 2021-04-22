@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import firebase from "../../firebase";
 import Spinner from "../spinner/spinner";
 import classes from "../main/timeline/post/post.module.css";
+import { useHistory } from 'react-router-dom'
 
 function FullPost(props) {
   const [loading, setLoading] = useState(false);
   const [loadedPost, setLoadedPost] = useState(null);
+  const [ postText, setPostText ] = useState('')
+  const history = useHistory()
 
   useEffect(() => {
     setLoading(true);
     const db = firebase.firestore();
-    const data = db
+    db
       .collection("posts")
       .doc(props.match.params.id)
       .get()
       .then((docRef) => {
         setLoadedPost(docRef.data());
-        console.log(docRef.data());
         setLoading(false);
       })
       .catch((error) => {
@@ -25,21 +27,38 @@ function FullPost(props) {
       });
   }, [props.match.params.id]);
 
+  const handleChange = (event) => {
+    setPostText(event.target.value);
+  };
+
+  const changeComment = (event) => {
+    event.preventDefault()
+    const db = firebase.firestore();
+    db.collection("posts").doc(props.match.params.id).update({ comment: postText})
+
+    history.push('/home')
+  }
+
   let spinnerOrPost = (
     <section className="container">
+      <h2>Edit your post</h2>
+      <br></br>
       {loadedPost ? (
         <div className={classes.post}>
           <div className={classes.postHeader}>
             <div className={classes.postAvatar}>
-              <img src={loadedPost.profilePic} />
+              <img src={loadedPost.profilePic} alt={loadedPost.comment} />
             </div>
             <h4>{loadedPost.user}</h4>
           </div>
-          <div className={classes.postBody}>{loadedPost.comment}</div>
+          <form onSubmit={changeComment}>
+          <div className={classes.postBody}><textarea 
+            placeholder={loadedPost.comment} required value={postText} onChange={handleChange} /></div>
           <div className={classes.postFooter}>
+            <button type="submit">Save Changes!</button>
             
-            <button onClick={() => {}}>Edit Post</button>
           </div>
+          </form>
         </div>
       ) : (
         <p>This post doesn't exist, please load another one! :)</p>
@@ -48,7 +67,6 @@ function FullPost(props) {
   );
 
   if (loading) {
-    console.log("hello");
     spinnerOrPost = <Spinner />;
   }
 

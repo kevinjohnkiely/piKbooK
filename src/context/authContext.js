@@ -11,11 +11,6 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const db = firebase.firestore();
-  //   const theUser = db.collection('users').where("state", "==", "CA")
-  // },[])
-
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
@@ -39,12 +34,6 @@ export function AuthProvider({ children }) {
   function updatePassword(password) {
     return currentUser.updatePassword(password);
   }
-
-  // function getCurrentLoggedInUsersDetails(userId) {
-  //   // query the db
-  //   const x = userId
-  //   return x + ' is the details'
-  // }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {

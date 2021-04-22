@@ -1,8 +1,14 @@
 .post {
     background: var(--primary-color);
-    /* border: 1px solid var(--primary-color); */
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0, 0.6);
+    border: 5px solid var(--secondary-color)
+}
+
+.post:hover {
+    background-color: var(--fourth-color);
 }
 
 .postHeader {
@@ -21,6 +27,7 @@
 }
 
 .postAvatar img {
+    object-fit: cover;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -44,8 +51,9 @@
 }
 
 .postFooter {
+    padding-top: 15px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -72,6 +80,7 @@
     background-color: red;
     margin: 15px;
     padding: 15px;
+    border-radius: 10px;
 }
 
 .postCheckDelete p {
@@ -80,6 +89,24 @@
     font-weight: bold;
 }
 
+.postDate {
+    font-size: 12px;
+    font-style: italic;
+}
+
 .likes {
-    color: var(--tertiary-color)
+    color: var(--tertiary-color);
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.listLikes {
+    color: var(--tertiary-color);
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.postFooter .btn:disabled {
+    background-color: rgba(0,0,0, 0.3);
+    cursor: not-allowed;
 }

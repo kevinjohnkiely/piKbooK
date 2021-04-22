@@ -35,10 +35,10 @@ const Header = () => {
               {currentUser && (
                   <>
                   <li>
-                  <Link to="/home">Home</Link>
+                  <Link to="/home">Timeline</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to="/dashboard">Account Details</Link>
                 </li>
                 </>
               )}

@@ -83,6 +83,10 @@
     font-weight: bold;
 }
 
+.imageUploaded {
+    margin: 20px;
+}
+
 /* Mobile */
 @media(max-width: 600px){
     .card {
