@@ -110,3 +110,15 @@
     background-color: rgba(0,0,0, 0.3);
     cursor: not-allowed;
 }
+
+/*  Medium Screens */
+@media (max-width: 800px) {
+    .postFooter {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .postFooter button {
+        margin-top: 25px;
+    }
+  }

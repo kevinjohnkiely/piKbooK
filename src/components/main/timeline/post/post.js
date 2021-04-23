@@ -3,6 +3,7 @@ import classes from "./post.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../context/authContext";
 import Spinner from "../../../spinner/spinner";
+import ReactTooltip from 'react-tooltip';
 
 import firebase from "../../../../firebase";
 
@@ -57,7 +58,7 @@ const Post = ({ post, postClicked, loadedUserDetails }) => {
     })
     let likeText = ''
     likeArray.forEach(likeAr => {
-      likeText += likeAr + '...'
+      likeText += likeAr + '...';
     })
     return likeText
   }
@@ -92,13 +93,11 @@ const Post = ({ post, postClicked, loadedUserDetails }) => {
                 <i className="fas fa-thumbs-up"></i>
               </button>
             )}
-            <span className={classes.likes}>
+            <span className={classes.likes} data-tip={getListOfLikes(post.id)}>
               {calculateLikes(post.id)} like
               {calculateLikes(post.id) > 1 || calculateLikes(post.id) === 0 ? "s" : ""}
             </span>
-            <span className={classes.listLikes}>
-              Liked by: {getListOfLikes(post.id)}
-            </span>
+            <ReactTooltip backgroundColor="#003333" />
           </div>
           <div>
             {loadedUserDetails.userId === post.userId ? (

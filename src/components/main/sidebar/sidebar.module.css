@@ -1,87 +1,119 @@
 .sidebarForm {
-    padding: 10px;
+  padding: 10px;
 }
 
 .userPanel {
-    padding: 15px;
-    background-color: var(--secondary-color);
-    margin-bottom: 20px;
-    color: var(--tertiary-color);
-    border-radius: 10px;
+  padding: 15px;
+  background-color: var(--secondary-color);
+  margin-bottom: 20px;
+  color: var(--tertiary-color);
+  border-radius: 10px;
 }
 
 .userPanelHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .userPanelBody {
-    padding-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    border-top: 1px dotted var(--tertiary-color);
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  border-top: 1px dotted var(--tertiary-color);
 }
 
 .userPanelBody a {
-    padding-right: 10px;
-    color: var(--tertiary-color);
-    font-size: 12px;
+  padding-right: 10px;
+  color: var(--tertiary-color);
+  font-size: 12px;
 }
 
 .userPanelBody a:hover {
-    color: var(--fourth-color);
-    text-decoration: underline;
+  color: var(--fourth-color);
+  text-decoration: underline;
+}
+
+.userPanelLocation {
+    font-size: 14px;
+}
+
+.userPanelLocation i {
+    color: var(--primary-color);
+    margin-right: 10px;
 }
 
 .userPanel img {
-    object-fit: cover;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid var(--tertiary-color)
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--tertiary-color);
 }
 
 .formCard {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0, 0.3);
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .formCard input[type="text"] {
-    border: 2px solid #c9c9c9;
-    width: 100%;
-    padding: 10px;
-    margin: 20px 0 20px 0;
- }
+  border: 2px solid #c9c9c9;
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0 20px 0;
+}
 
- .formCard button {
-    display: inline-block;
-    padding: 10px 30px;
-    cursor: pointer;
-    background: var(--secondary-color);
-    color: white;
-    border: none;
-    border-radius: 7px;
- }
+.formCard button {
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
 
- .formCard button:hover {
-     background: var(--primary-color);
- }
+.formCard button:hover {
+  background: var(--primary-color);
+}
 
- .errorMsg {
-    padding: 20px;
-    background-color: red;
-    color: wheat;
-    text-transform: uppercase;
-    font-weight: bold;
+.errorMsg {
+  padding: 20px;
+  background-color: red;
+  color: wheat;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .highlighted {
-    text-transform: uppercase;
-    color: var(--primary-color);
-    font-weight: bolder;
+  /* text-transform: uppercase; */
+  color: var(--primary-color);
+  font-weight: bolder;
+}
+
+/*  Medium Screens */
+@media (max-width: 800px) and (min-width: 601px) {
+  .userPanelHeader {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .userPanelBody {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .userPanelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

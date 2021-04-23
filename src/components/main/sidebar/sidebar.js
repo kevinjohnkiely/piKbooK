@@ -10,7 +10,7 @@ const Sidebar = (props) => {
   const { currentUser, logout } = useAuth();
   const [comment, setComment] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const history = useHistory();
 
   const handleChange = (event) => {
@@ -49,14 +49,14 @@ const Sidebar = (props) => {
     <aside className={classes.sidebarForm}>
       <div className={classes.userPanel}>
         <div className={classes.userPanelHeader}>
-          <h4>
+          <h3>
             Welcome,{" "}
             <span className={classes.highlighted}>
               {props.loadedUserDetails.username
                 ? props.loadedUserDetails.username
                 : "Guest"}
             </span>
-          </h4>
+          </h3>
           {props.loadedUserDetails.profilePic ? (
             <img
               src={props.loadedUserDetails.profilePic}
@@ -66,10 +66,18 @@ const Sidebar = (props) => {
             <i className="fas fa-user-circle fa-3x"></i>
           )}
         </div>
+        <div className={classes.userPanelLocation}>
+          <i className="fas fa-map-marker-alt fa-2x"></i>
+          <span>{props.loadedUserDetails.location}</span>
+        </div>
         <div className={classes.userPanelBody}>
-            <Link onClick={handleLogout}>Logout</Link>
-            <Link Link to="/update-profile">Change Email/Password</Link>
-            <Link Link to="/change-picture">Change Photo</Link>
+          <Link onClick={handleLogout}>Logout</Link>
+          <Link Link to="/update-profile">
+            Change Email/Password
+          </Link>
+          <Link Link to="/change-picture">
+            Change Photo
+          </Link>
         </div>
       </div>
 

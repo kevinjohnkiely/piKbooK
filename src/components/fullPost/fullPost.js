@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'
 import firebase from "../../firebase";
 import Spinner from "../spinner/spinner";
 import classes from "../main/timeline/post/post.module.css";
@@ -59,11 +60,13 @@ function FullPost(props) {
             
           </div>
           </form>
+          
         </div>
       ) : (
         <p>This post doesn't exist, please load another one! :)</p>
       )}
     </section>
+    
   );
 
   if (loading) {
